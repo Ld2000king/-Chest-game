@@ -1,13 +1,14 @@
-const CACHE_NAME = "cursed-chest-v2";
+const CACHE_NAME = "cursed-chest-v3";
+const BASE = new URL("./", self.registration.scope).pathname;
 const APP_SHELL = [
-  "/",
-  "/manifest.webmanifest",
-  "/offline.html",
-  "/favicon.svg",
-  "/pwa-192.png",
-  "/pwa-512.png",
-  "/apple-touch-icon.png",
-  "/og.png",
+  BASE,
+  `${BASE}manifest.webmanifest`,
+  `${BASE}offline.html`,
+  `${BASE}favicon.svg`,
+  `${BASE}pwa-192.png`,
+  `${BASE}pwa-512.png`,
+  `${BASE}apple-touch-icon.png`,
+  `${BASE}og.png`,
 ];
 
 self.addEventListener("install", (event) => {
@@ -39,7 +40,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
           return response;
         })
-        .catch(async () => (await caches.match(request)) || (await caches.match("/")) || caches.match("/offline.html")),
+        .catch(async () => (await caches.match(request)) || (await caches.match(BASE)) || caches.match(`${BASE}offline.html`)),
     );
     return;
   }
